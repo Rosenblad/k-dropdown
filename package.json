@@ -1,11 +1,20 @@
 {
   "name": "k-dropdown",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "minify": "./node_modules/.bin/webpack -p --config webpack.minify.js",
+    "dev": "./node_modules/.bin/webpack -w -c --progress --config webpack.dev.js",
+    "compile": "./node_modules/.bin/webpack --config webpack.compile.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Webbyrån Konsulterna",
+  "dependencies": {
+    "webpack": "*",
+    "css-loader": "*",
+    "style-loader": "*",
+    "extract-text-webpack-plugin": "*",
+    "babel-core": "*",
+    "babel-preset-es2015": "*",
+    "babel-loader": "*"
+  }
 }

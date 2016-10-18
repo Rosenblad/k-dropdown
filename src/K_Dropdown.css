@@ -1,0 +1,37 @@
+/* K-Dropdown */
+
+.k-dropdown {
+	position: relative;
+}
+
+.k-dropdown__content {
+	/* Hide by default */
+	opacity: 0;
+	visibility: hidden;
+
+	position: absolute;
+	top: 100%;
+	z-index: 2000;
+}
+
+.k-dropdown__bg {
+	/* Hide by default */
+	display: none;
+
+	/* Expand to fill window */
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+}
+
+.k-dropdown--open .k-dropdown__bg {
+	display: block;
+}
+
+.k-dropdown--open .k-dropdown__content {
+	opacity: 1;
+	visibility: visible;
+}

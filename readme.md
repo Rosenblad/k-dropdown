@@ -22,6 +22,20 @@ or
 
 # Usage
 
+## Development
+
+Minify
+
+```bin
+$ npm run compile
+```
+
+Development with watch mode
+
+```bin
+npm run dev
+```
+
 # Examples
 
 ```html
@@ -37,3 +51,4 @@ or
 ```
 
 # TODO
+
