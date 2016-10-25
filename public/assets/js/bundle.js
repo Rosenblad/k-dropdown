@@ -54,10 +54,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//.init()
-
-	//Dropdown.init()
-
 	// Dropdowns
 	// Styles
 	var triggerDropdown = document.querySelector('#triggerMe');
@@ -66,11 +62,11 @@
 
 	_K_Dropdown2.default.init(triggerDropdown, {});
 
-	var loginDropdown = document.querySelector('#loginDropdown');
-	_K_Dropdown2.default.init(loginDropdown, {});
+	// const loginDropdown = document.querySelector('#loginDropdown')
+	// Dropdown.init(loginDropdown, {})
 
-	var languageDropdown = document.querySelector('#languageDropdown');
-	_K_Dropdown2.default.init(languageDropdown, {});
+	// const languageDropdown = document.querySelector('#languageDropdown')
+	// Dropdown.init(languageDropdown, {})
 
 /***/ },
 /* 1 */
@@ -446,24 +442,19 @@
 	    _classCallCheck(this, K_Dropdown);
 
 	    this.dropdown = dropdown;
-	    this.dropdownTrigger = dropdown.querySelector('.k-dropdown__trigger');
-
-	    this.els = {
-	      triggers: document.querySelectorAll('[data-dropdown]'),
-	      body: document.querySelector('body'),
-	      dropdownContent: document.querySelectorAll('.k-dropdown__content')
-	    };
+	    this.dropdownOpen = dropdown.querySelector('.k-dropdown__open');
+	    this.dropdownClose = dropdown.querySelector('.k-dropdown__close');
 
 	    this.selectors = _defineProperty({
-	      triggerActive: 'k-dropdown__trigger--active',
-	      dropdownOpen: 'k-dropdown--open',
+	      triggerActive: 'k-dropdown__open--active',
+	      dropdown__open: 'k-dropdown--open',
 	      dropdown: 'k-dropdown',
 	      dropdownBg: 'k-dropdown__bg'
 	    }, 'dropdown', dropdown);
 
 	    this.build();
 
-	    this.els.dropdownBgs = document.querySelectorAll('.k-dropdown__bg');
+	    this.dropdownBg = document.querySelector('.k-dropdown__bg');
 
 	    this.bindEvents();
 	  }
@@ -494,28 +485,28 @@
 	      var _selectors2 = this.selectors;
 	      var triggerActive = _selectors2.triggerActive;
 	      var dropdownActive = _selectors2.dropdownActive;
-	      var dropdownOpen = _selectors2.dropdownOpen;
+	      var dropdown__open = _selectors2.dropdown__open;
 
-	      var dropdownTrigger = this.dropdownTrigger;
+	      var dropdownOpen = this.dropdownOpen;
 
-	      dropdownTrigger.classList.add(triggerActive);
-	      parentNode.classList.add(dropdownOpen);
+	      dropdownOpen.classList.add(triggerActive);
+	      parentNode.classList.add(dropdown__open);
 	    }
 	  }, {
 	    key: 'closeDropdown',
 	    value: function closeDropdown() {
 	      var _selectors3 = this.selectors;
-	      var dropdownOpen = _selectors3.dropdownOpen;
+	      var dropdown__open = _selectors3.dropdown__open;
 	      var triggerActive = _selectors3.triggerActive;
 
 	      var dropdown = this.dropdown;
-	      var dropdownTrigger = this.dropdownTrigger;
+	      var dropdownOpen = this.dropdownOpen;
 
 	      // Remove active class from dropdown
-	      dropdown.classList.remove(dropdownOpen);
+	      dropdown.classList.remove(dropdown__open);
 
 	      // Remove active class from dropdown triggers
-	      dropdownTrigger.classList.remove(triggerActive);
+	      dropdownOpen.classList.remove(triggerActive);
 	    }
 	  }, {
 	    key: 'build',
@@ -531,25 +522,20 @@
 	  }, {
 	    key: 'bindEvents',
 	    value: function bindEvents() {
-	      var _this = this;
+	      var dropdownOpen = this.dropdownOpen;
+	      var dropdownClose = this.dropdownClose;
+	      var dropdownBg = this.dropdownBg;
+	      console.log(dropdownClose);
 
-	      var _els = this.els;
-	      var triggers = _els.triggers;
-	      var body = _els.body;
-	      var dropdowns = _els.dropdowns;
-	      var dropdownBgs = _els.dropdownBgs;
+	      // Open dropdown
+	      dropdownOpen.addEventListener('click', this.toggleDropdown.bind(this), false);
 
-
-	      var dropdown = this.dropdown;
-	      var dropdownTrigger = this.dropdownTrigger;
-
-	      dropdownTrigger.addEventListener('click', this.toggleDropdown.bind(this), false);
-
-	      if (dropdownBgs) {
-	        dropdownBgs.forEach(function (el) {
-	          el.addEventListener('click', _this.closeDropdown.bind(_this), false);
-	        });
+	      // Close dropdown
+	      if (dropdownClose) {
+	        dropdownClose.addEventListener('click', this.closeDropdown.bind(this), false);
 	      }
+
+	      dropdownBg.addEventListener('click', this.closeDropdown.bind(this), false);
 	    }
 	  }], [{
 	    key: 'init',

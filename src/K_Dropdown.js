@@ -8,17 +8,12 @@
 
   constructor(dropdown, options) {
     this.dropdown = dropdown
-    this.dropdownTrigger = dropdown.querySelector('.k-dropdown__trigger')
-
-    this.els = {
-      triggers: document.querySelectorAll('[data-dropdown]'),
-      body: document.querySelector('body'),
-      dropdownContent: document.querySelectorAll('.k-dropdown__content'),
-    }
+    this.dropdownOpen = dropdown.querySelector('.k-dropdown__open')
+    this.dropdownClose = dropdown.querySelector('.k-dropdown__close')
 
     this.selectors = {
-      triggerActive: 'k-dropdown__trigger--active',
-      dropdownOpen: 'k-dropdown--open',
+      triggerActive: 'k-dropdown__open--active',
+      dropdown__open: 'k-dropdown--open',
       dropdown: 'k-dropdown',
       dropdownBg: 'k-dropdown__bg',
       dropdown
@@ -26,7 +21,7 @@
 
     this.build()
 
-    this.els.dropdownBgs = document.querySelectorAll('.k-dropdown__bg')
+    this.dropdownBg = document.querySelector('.k-dropdown__bg')
 
     this.bindEvents()
   }
@@ -51,23 +46,23 @@
   }
 
   openDropdown(dropdown, trigger, parentNode) {
-    const { triggerActive, dropdownActive, dropdownOpen } = this.selectors
-    const dropdownTrigger = this.dropdownTrigger
+    const { triggerActive, dropdownActive, dropdown__open } = this.selectors
+    const dropdownOpen = this.dropdownOpen
 
-    dropdownTrigger.classList.add(triggerActive)
-    parentNode.classList.add(dropdownOpen)
+    dropdownOpen.classList.add(triggerActive)
+    parentNode.classList.add(dropdown__open)
   }
 
   closeDropdown() {
-    const { dropdownOpen, triggerActive } = this.selectors
+    const { dropdown__open, triggerActive } = this.selectors
     const dropdown = this.dropdown
-    const dropdownTrigger = this.dropdownTrigger
+    const dropdownOpen = this.dropdownOpen
 
     // Remove active class from dropdown
-    dropdown.classList.remove(dropdownOpen)
+    dropdown.classList.remove(dropdown__open)
 
     // Remove active class from dropdown triggers
-    dropdownTrigger.classList.remove(triggerActive)
+    dropdownOpen.classList.remove(triggerActive)
   }
 
   build() {
@@ -80,18 +75,20 @@
   }
 
   bindEvents() {
-    const { triggers, body, dropdowns, dropdownBgs } = this.els
+    const dropdownOpen = this.dropdownOpen
+    const dropdownClose = this.dropdownClose
+    const dropdownBg = this.dropdownBg
+    console.log(dropdownClose)
 
-    const dropdown = this.dropdown
-    const dropdownTrigger = this.dropdownTrigger
+    // Open dropdown
+    dropdownOpen.addEventListener('click', this.toggleDropdown.bind(this), false)
 
-    dropdownTrigger.addEventListener('click', this.toggleDropdown.bind(this), false)
-
-    if (dropdownBgs) {
-      dropdownBgs.forEach(el => {
-        el.addEventListener('click', this.closeDropdown.bind(this), false)
-      })
+    // Close dropdown
+    if (dropdownClose) {
+      dropdownClose.addEventListener('click', this.closeDropdown.bind(this), false)
     }
+
+    dropdownBg.addEventListener('click', this.closeDropdown.bind(this), false)
 
   }
 

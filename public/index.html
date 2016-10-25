@@ -50,7 +50,7 @@
 		border: 1px solid green;
 	}
 
-	.k-dropdown__trigger--active {
+	.k-dropdown__open--active {
 		color: orange;
 	}
 	</style>
@@ -58,15 +58,16 @@
 <body>
 
 <div id="triggerMe" class="k-dropdown">
-	<div class="k-dropdown__trigger">Trigger me</div>
+	<div class="k-dropdown__open">Trigger me</div>
 	<div class="k-dropdown__content">
+		<div class="k-dropdown__close">Close</div>
 		content
 	</div>
 </div>
 
 <ul class="nav">
 	<li id="loginDropdown" class="k-dropdown">
-		<a href="#" class="k-dropdown__trigger">Login</a>
+		<a href="#" class="k-dropdown__open">Login</a>
 		<div class="k-dropdown__content">
 			<form>
 				<div>
@@ -79,7 +80,7 @@
 		</div>
 	</li>
 	<li class="k-dropdown">
-		<a href="#" data-dropdown="dropdown-language">Language</a>
+		<a href="#" data-dropdown="dropdown-language" class="k-dropdown__open">Language</a>
 		<div id="dropdown-language" class="k-dropdown__content">
 			Flags
 		</div>
