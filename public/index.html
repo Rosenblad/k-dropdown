@@ -57,10 +57,17 @@
 </head>
 <body>
 
+<div id="triggerMe" class="k-dropdown">
+	<div class="k-dropdown__trigger">Trigger me</div>
+	<div class="k-dropdown__content">
+		content
+	</div>
+</div>
+
 <ul class="nav">
-	<li class="k-dropdown">
-		<a href="#" data-dropdown="dropdown-login">Login</a>
-		<div id="dropdown-login" class="k-dropdown__content">
+	<li id="loginDropdown" class="k-dropdown">
+		<a href="#" class="k-dropdown__trigger">Login</a>
+		<div class="k-dropdown__content">
 			<form>
 				<div>
 					<label for="username">Username:</label><input id="username" type="text">

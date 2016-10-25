@@ -22,7 +22,7 @@ or
 
 # Usage
 
-## Development
+## Commands
 
 Minify
 
@@ -39,6 +39,18 @@ npm run dev
 # Examples
 
 ```html
+
+<div id="dropdown" class="k-dropdown">
+	<div class="k-dropdown__trigger">Open Dropdown</div>
+	<div class="k-dropdown__content">
+		<!-- your content -->
+	</div>
+</div>
+
+<script>
+var dropdown = document.querySelector('#dropdown')
+Dropdown.init(dropdown, {options})
+</script>
 
 <!-- dropdown trigger -->
 <a href="#" data-dropdown="dropdown__languagePicker">

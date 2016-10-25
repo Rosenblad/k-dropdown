@@ -46,7 +46,7 @@
 
 	'use strict';
 
-	__webpack_require__(6);
+	__webpack_require__(1);
 
 	var _K_Dropdown = __webpack_require__(5);
 
@@ -56,14 +56,63 @@
 
 	//.init()
 
+	//Dropdown.init()
+
+	// Dropdowns
 	// Styles
-	_K_Dropdown2.default.init();
+	var triggerDropdown = document.querySelector('#triggerMe');
 
 	// Modules
 
+	_K_Dropdown2.default.init(triggerDropdown, {});
+
+	var loginDropdown = document.querySelector('#loginDropdown');
+	_K_Dropdown2.default.init(loginDropdown, {});
+
+	var languageDropdown = document.querySelector('#languageDropdown');
+	_K_Dropdown2.default.init(languageDropdown, {});
+
 /***/ },
-/* 1 */,
-/* 2 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./K_Dropdown.css", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./K_Dropdown.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* K-Dropdown */\n\n.k-dropdown {\n\tposition: relative;\n}\n\n.k-dropdown__content {\n\t/* Hide by default */\n\topacity: 0;\n\tvisibility: hidden;\n\n\tposition: absolute;\n\ttop: 100%;\n\tz-index: 2000;\n}\n\n.k-dropdown__bg {\n\t/* Hide by default */\n\tdisplay: none;\n\n\t/* Expand to fill window */\n\tposition: fixed;\n\ttop: 0;\n\tright: 0;\n\tbottom: 0;\n\tleft: 0;\n\tz-index: 1000;\n}\n\n.k-dropdown--open .k-dropdown__bg {\n\tdisplay: block;\n}\n\n.k-dropdown--open .k-dropdown__content {\n\topacity: 1;\n\tvisibility: visible;\n}", ""]);
+
+	// exports
+
+
+/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -382,6 +431,8 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	/**
@@ -391,26 +442,24 @@
 	 */
 
 	var K_Dropdown = function () {
-	  function K_Dropdown(options) {
+	  function K_Dropdown(dropdown, options) {
 	    _classCallCheck(this, K_Dropdown);
 
-	    var dropdown = 'k-dropdown';
-	    var dropdowns = document.querySelectorAll('.' + dropdown);
+	    this.dropdown = dropdown;
+	    this.dropdownTrigger = dropdown.querySelector('.k-dropdown__trigger');
 
 	    this.els = {
 	      triggers: document.querySelectorAll('[data-dropdown]'),
 	      body: document.querySelector('body'),
-	      dropdownContent: document.querySelectorAll('.k-dropdown__content'),
-	      dropdowns: dropdowns
+	      dropdownContent: document.querySelectorAll('.k-dropdown__content')
 	    };
 
-	    this.selectors = {
-	      triggerActiveClass: 'k-dropdown__trigger--active',
+	    this.selectors = _defineProperty({
+	      triggerActive: 'k-dropdown__trigger--active',
 	      dropdownOpen: 'k-dropdown--open',
-	      dropdownClass: 'k-dropdown',
-	      dropdownBg: 'k-dropdown__bg',
-	      dropdown: dropdown
-	    };
+	      dropdown: 'k-dropdown',
+	      dropdownBg: 'k-dropdown__bg'
+	    }, 'dropdown', dropdown);
 
 	    this.build();
 
@@ -431,7 +480,7 @@
 	      var parentNode = trigger.parentNode;
 
 	      var dropdownId = trigger.getAttribute('data-dropdown');
-	      var dropdown = document.querySelector('#' + dropdownId);
+	      var dropdown = this.dropdown;
 
 	      if (dropdown.classList.contains(dropdownOpen)) {
 	        this.closeDropdowns();
@@ -442,77 +491,70 @@
 	  }, {
 	    key: 'openDropdown',
 	    value: function openDropdown(dropdown, trigger, parentNode) {
-	      var _selectors = this.selectors;
-	      var triggerActiveClass = _selectors.triggerActiveClass;
-	      var dropdownActiveClass = _selectors.dropdownActiveClass;
-	      var dropdownOpen = _selectors.dropdownOpen;
+	      var _selectors2 = this.selectors;
+	      var triggerActive = _selectors2.triggerActive;
+	      var dropdownActive = _selectors2.dropdownActive;
+	      var dropdownOpen = _selectors2.dropdownOpen;
 
+	      var dropdownTrigger = this.dropdownTrigger;
 
-	      trigger.classList.add(triggerActiveClass);
+	      dropdownTrigger.classList.add(triggerActive);
 	      parentNode.classList.add(dropdownOpen);
 	    }
 	  }, {
-	    key: 'closeDropdowns',
-	    value: function closeDropdowns() {
-	      var _els = this.els;
-	      var dropdowns = _els.dropdowns;
-	      var triggers = _els.triggers;
-	      var _selectors2 = this.selectors;
-	      var dropdownOpen = _selectors2.dropdownOpen;
-	      var triggerActiveClass = _selectors2.triggerActiveClass;
+	    key: 'closeDropdown',
+	    value: function closeDropdown() {
+	      var _selectors3 = this.selectors;
+	      var dropdownOpen = _selectors3.dropdownOpen;
+	      var triggerActive = _selectors3.triggerActive;
+
+	      var dropdown = this.dropdown;
+	      var dropdownTrigger = this.dropdownTrigger;
 
 	      // Remove active class from dropdown
-
-	      dropdowns.forEach(function (el) {
-	        el.classList.remove(dropdownOpen);
-	      });
+	      dropdown.classList.remove(dropdownOpen);
 
 	      // Remove active class from dropdown triggers
-	      for (var i = 0; i < triggers.length; ++i) {
-	        triggers[i].classList.remove(triggerActiveClass);
-	      }
+	      dropdownTrigger.classList.remove(triggerActive);
 	    }
 	  }, {
 	    key: 'build',
 	    value: function build() {
-	      var dropdowns = this.els.dropdowns;
+	      var dropdown = this.dropdown;
 	      var dropdownBg = this.selectors.dropdownBg;
 
 
-	      dropdowns.forEach(function (el) {
-	        var bg = document.createElement('div');
-	        bg.classList.add(dropdownBg);
-	        el.appendChild(bg);
-	      });
+	      var bg = document.createElement('div');
+	      bg.classList.add(dropdownBg);
+	      dropdown.appendChild(bg);
 	    }
 	  }, {
 	    key: 'bindEvents',
 	    value: function bindEvents() {
 	      var _this = this;
 
-	      var _els2 = this.els;
-	      var triggers = _els2.triggers;
-	      var body = _els2.body;
-	      var dropdowns = _els2.dropdowns;
-	      var dropdownBgs = _els2.dropdownBgs;
+	      var _els = this.els;
+	      var triggers = _els.triggers;
+	      var body = _els.body;
+	      var dropdowns = _els.dropdowns;
+	      var dropdownBgs = _els.dropdownBgs;
 
 
-	      if (triggers) {
-	        for (var i = 0; i < triggers.length; ++i) {
-	          triggers[i].addEventListener('click', this.toggleDropdown.bind(this), false);
-	        }
-	      }
+	      var dropdown = this.dropdown;
+	      var dropdownTrigger = this.dropdownTrigger;
+
+	      dropdownTrigger.addEventListener('click', this.toggleDropdown.bind(this), false);
 
 	      if (dropdownBgs) {
 	        dropdownBgs.forEach(function (el) {
-	          el.addEventListener('click', _this.closeDropdowns.bind(_this), false);
+	          el.addEventListener('click', _this.closeDropdown.bind(_this), false);
 	        });
 	      }
 	    }
 	  }], [{
 	    key: 'init',
-	    value: function init(options) {
-	      new K_Dropdown(options);
+	    value: function init(dropdown, options) {
+	      new K_Dropdown(dropdown, options);
 	    }
 	  }]);
 
@@ -520,46 +562,6 @@
 	}();
 
 	exports.default = K_Dropdown;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(7);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../node_modules/css-loader/index.js!./K_Dropdown.css", function() {
-				var newContent = require("!!./../node_modules/css-loader/index.js!./K_Dropdown.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/* K-Dropdown */\n\n.k-dropdown {\n\tposition: relative;\n}\n\n.k-dropdown__content {\n\t/* Hide by default */\n\topacity: 0;\n\tvisibility: hidden;\n\n\tposition: absolute;\n\ttop: 100%;\n\tz-index: 2000;\n}\n\n.k-dropdown__bg {\n\t/* Hide by default */\n\tdisplay: none;\n\n\t/* Expand to fill window */\n\tposition: fixed;\n\ttop: 0;\n\tright: 0;\n\tbottom: 0;\n\tleft: 0;\n\tz-index: 1000;\n}\n\n.k-dropdown--open .k-dropdown__bg {\n\tdisplay: block;\n}\n\n.k-dropdown--open .k-dropdown__content {\n\topacity: 1;\n\tvisibility: visible;\n}", ""]);
-
-	// exports
-
 
 /***/ }
 /******/ ]);

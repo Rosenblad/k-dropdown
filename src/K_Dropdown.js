@@ -6,21 +6,20 @@
 
  class K_Dropdown {
 
-  constructor(options) {
-    const dropdown = 'k-dropdown'
-    const dropdowns = document.querySelectorAll('.' + dropdown)
+  constructor(dropdown, options) {
+    this.dropdown = dropdown
+    this.dropdownTrigger = dropdown.querySelector('.k-dropdown__trigger')
 
     this.els = {
       triggers: document.querySelectorAll('[data-dropdown]'),
       body: document.querySelector('body'),
       dropdownContent: document.querySelectorAll('.k-dropdown__content'),
-      dropdowns
     }
 
     this.selectors = {
-      triggerActiveClass: 'k-dropdown__trigger--active',
+      triggerActive: 'k-dropdown__trigger--active',
       dropdownOpen: 'k-dropdown--open',
-      dropdownClass: 'k-dropdown',
+      dropdown: 'k-dropdown',
       dropdownBg: 'k-dropdown__bg',
       dropdown
     }
@@ -41,7 +40,7 @@
     const parentNode = trigger.parentNode
 
     const dropdownId = trigger.getAttribute('data-dropdown')
-    const dropdown = document.querySelector('#' + dropdownId)
+    const dropdown = this.dropdown
 
     if (dropdown.classList.contains(dropdownOpen)) {
       this.closeDropdowns()
@@ -52,57 +51,52 @@
   }
 
   openDropdown(dropdown, trigger, parentNode) {
-    const { triggerActiveClass, dropdownActiveClass, dropdownOpen } = this.selectors
+    const { triggerActive, dropdownActive, dropdownOpen } = this.selectors
+    const dropdownTrigger = this.dropdownTrigger
 
-    trigger.classList.add(triggerActiveClass)
+    dropdownTrigger.classList.add(triggerActive)
     parentNode.classList.add(dropdownOpen)
   }
 
-  closeDropdowns() {
-    const { dropdowns, triggers } = this.els
-    const { dropdownOpen, triggerActiveClass } = this.selectors
+  closeDropdown() {
+    const { dropdownOpen, triggerActive } = this.selectors
+    const dropdown = this.dropdown
+    const dropdownTrigger = this.dropdownTrigger
 
     // Remove active class from dropdown
-    dropdowns.forEach(el => {
-      el.classList.remove(dropdownOpen)
-    })
+    dropdown.classList.remove(dropdownOpen)
 
     // Remove active class from dropdown triggers
-    for (var i = 0; i < triggers.length; ++i) {
-      triggers[i].classList.remove(triggerActiveClass)
-    }
+    dropdownTrigger.classList.remove(triggerActive)
   }
 
   build() {
-    const { dropdowns } = this.els
+    const dropdown = this.dropdown
     const { dropdownBg } = this.selectors
 
-    dropdowns.forEach(el => {
-      const bg = document.createElement('div')
-      bg.classList.add(dropdownBg)
-      el.appendChild(bg)
-    })
+    const bg = document.createElement('div')
+    bg.classList.add(dropdownBg)
+    dropdown.appendChild(bg)
   }
 
   bindEvents() {
     const { triggers, body, dropdowns, dropdownBgs } = this.els
 
-    if (triggers) {
-      for (var i = 0; i < triggers.length; ++i) {
-        triggers[i].addEventListener('click', this.toggleDropdown.bind(this), false)
-      }
-    }
+    const dropdown = this.dropdown
+    const dropdownTrigger = this.dropdownTrigger
+
+    dropdownTrigger.addEventListener('click', this.toggleDropdown.bind(this), false)
 
     if (dropdownBgs) {
       dropdownBgs.forEach(el => {
-        el.addEventListener('click', this.closeDropdowns.bind(this), false)
+        el.addEventListener('click', this.closeDropdown.bind(this), false)
       })
     }
 
   }
 
-  static init(options) {
-    new K_Dropdown(options)
+  static init(dropdown, options) {
+    new K_Dropdown(dropdown, options)
   }
 
 }
